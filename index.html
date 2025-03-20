@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Mind Reader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f3f4;
+            overflow: auto;
+        }
+
+        .game-container {
+            width: 90vw;
+            max-width: 600px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .city-list {
+            font-size: 1em;
+            margin-bottom: 10px;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .city-list span {
+            padding: 3px 6px;
+            border-radius: 5px;
+        }
+
+        .list-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .list-column {
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 0.9em;
+            font-weight: bold; /* Cities in bold */
+        }
+
+        button {
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 8px;
+        }
+
+        #result {
+            font-size: 1em;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>City Mind Reader</h1>
+        <div class="city-list">
+            <span style="color: red;">Chennai</span>, 
+            <span style="color: blue;">London</span>, 
+            <span style="color: green;">Sydney</span>, 
+            <span style="color: purple;">Dubai</span>, 
+            <span style="color: orange;">Paris</span>, 
+            <span style="color: brown;">Moscow</span>, 
+            <span style="color: teal;">Beijing</span>, 
+            <span style="color: darkblue;">Chicago</span>, 
+            <span style="color: darkgreen;">Cairo</span>, 
+            <span style="color: darkred;">Sao Paulo</span>
+        </div>
+
+        <div class="list-grid">
+            <div class="list-column">
+                <input type="checkbox" value="1"> Moscow, Sydney, London, Paris, Sao Paulo
+            </div>
+
+            <div class="list-column">
+                <input type="checkbox" value="2"> Beijing, London, Paris, Dubai, Chennai
+            </div>
+
+            <div class="list-column">
+                <input type="checkbox" value="3"> Chicago, Sydney, Paris, Dubai
+            </div>
+
+            <div class="list-column">
+                <input type="checkbox" value="4"> Cairo, Sao Paulo, Chennai, Sydney, London, Dubai, Paris
+            </div>
+        </div>
+
+        <button onclick="revealCity()">Reveal City</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const cityMap = {
+            1: 'Moscow',
+            2: 'Beijing',
+            3: 'Chicago',
+            4: 'Cairo',
+            5: 'Sao Paulo',
+            6: 'Chennai',
+            7: 'London',
+            8: 'Sydney',
+            9: 'Dubai',
+            10: 'Paris'
+        };
+
+        function revealCity() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            let sum = Array.from(checkboxes).reduce((acc, cb) => acc + Number(cb.value), 0);
+
+            const result = document.getElementById('result');
+            result.textContent = cityMap[sum] 
+                ? `Your city is: ${cityMap[sum]}!` 
+                : "Check at least one list!";
+
+            // Reset the game after 3 seconds
+            setTimeout(resetGame, 3000);
+        }
+
+        function resetGame() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('result').textContent = "";
+        }
+    </script>
+</body>
+</html>
